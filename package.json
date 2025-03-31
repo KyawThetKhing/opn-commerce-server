@@ -1,0 +1,27 @@
+{
+    "name": "opn-commerce",
+    "version": "1.0.0",
+    "description": "The restful api challenge from opn",
+    "main": "src/server.js",
+    "scripts": {
+        "dev": "nodemon src/server.js",
+        "start": "node src/server.js",
+        "format:check": "prettier --check .",
+        "format:write": "prettier --write .",
+        "lint:check": "eslint .",
+        "lint:fix": "eslint --fix ."
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "cors": "^2.8.5",
+        "dotenv": "^16.4.7",
+        "express": "^4.21.2"
+    },
+    "devDependencies": {
+        "eslint": "^9.23.0",
+        "eslint-config-prettier": "^10.1.1",
+        "nodemon": "^3.1.9",
+        "prettier": "^3.5.3"
+    }
+}
