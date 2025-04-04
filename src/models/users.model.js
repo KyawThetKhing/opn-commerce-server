@@ -21,11 +21,15 @@ const users = [
     },
 ]
 
+const sanitizeUser = (user) => {
+    if (!user) return null
+    const { id, password, ...safeUser } = user
+    return safeUser
+}
+
 const getUserById = (userId) => {
     const user = users.find((user) => user.id === Number(userId))
-    if (!user) return null
-    const { id, password, ...rest } = user
-    return rest
+    return sanitizeUser(user)
 }
 
 const registerUser = (user) => {
@@ -33,15 +37,12 @@ const registerUser = (user) => {
     user.dateOfBirth = new Date(user.dateOfBirth)
     user.subscribeToNewsletter = user.subscribeToNewsletter || true
     users.push(user)
-    const { id, password, ...rest } = user
-    return rest
+    return sanitizeUser(user)
 }
 
 const deleteUserById = (userId) => {
     const user = users.find((user) => user.id === Number(userId))
-    if (!user) return null
-    users.splice(users.indexOf(user), 1)
-    return user
+    return sanitizeUser(user)
 }
 
 const updateUserById = (userId, user) => {
@@ -55,13 +56,12 @@ const updateUserById = (userId, user) => {
         address,
         subscribeToNewsletter,
     }
-    return user
+    return sanitizeUser(users[index])
 }
 
 const getPasswordById = (userId) => {
     const user = users.find((user) => user.id === Number(userId))
-    if (!user) return null
-    return user.password
+    return user ? user.password : null
 }
 
 const updateUserPasswordById = (userId, password) => {
