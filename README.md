@@ -40,3 +40,7 @@ Download Postman Collection and test api in postman [Download](./opn-commerce-se
 ## Challenge 3
 
 Download Postman Collection and test api in postman [Download](./cart.postman_collection.json)
+
+## Challenge 4
+
+![System Design](<./challenge4(instagram architecture).png>)

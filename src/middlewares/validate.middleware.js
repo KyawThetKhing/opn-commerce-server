@@ -1,6 +1,5 @@
 const yup = require('yup')
 
-// Middleware function to validate request data
 const validate = (schema) => async (req, res, next) => {
     try {
         req.body = await schema.validate(req.body, {

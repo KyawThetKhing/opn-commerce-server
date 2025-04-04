@@ -36,6 +36,10 @@ const getTotalAmount = () => {
         .reduce((total, product) => total + product.price * product.quantity, 0)
 }
 
+const getTotalUniqueItems = () => {
+    return Array.from(cart.values()).length
+}
+
 const calculateFinalAmount = () => {
     const totalAmount = getTotalAmount()
 
@@ -59,6 +63,14 @@ const calculateFinalAmount = () => {
         return finalAmountAfterDiscount
     }
     return totalAmount
+}
+
+const isProductExist = (productId) => {
+    return cart.has(productId)
+}
+
+const isCartEmpty = () => {
+    return cart.size === 0
 }
 
 const removeAppliedDiscount = (discountName) => {
@@ -106,19 +118,23 @@ const applyDiscount = (discountName) => {
 
 const getCart = () => {
     const finalAmount = calculateFinalAmount()
+    const totalUniqueItems = getTotalUniqueItems()
 
     return {
         products: Array.from(cart.values()),
+        isDiscountApplied: !!appliedDiscount,
         total: finalAmount,
+        totalUniqueItems,
     }
 }
 
 const deleteCart = () => {
+    if (isCartEmpty()) return
     cart.clear()
 }
 
 const addProductToCart = (product) => {
-    if (cart.has(product.productId))
+    if (isProductExist(product.productId))
         return {
             error: true,
             code: 'PRODUCT_ALREADY_EXISTS',
@@ -130,8 +146,7 @@ const addProductToCart = (product) => {
     if (freebie.has(product.productId)) {
         const freebieProduct = freebie.get(product.productId)
 
-        // Ensure the freebie is only added once
-        if (!cart.has(freebieProduct.productId)) {
+        if (!isProductExist(freebieProduct.productId)) {
             cart.set(freebieProduct.productId, {
                 ...freebieProduct,
                 quantity: product.quantity,
@@ -144,7 +159,7 @@ const addProductToCart = (product) => {
 }
 
 const updateProductInCart = (product) => {
-    if (!cart.has(product.productId))
+    if (!isProductExist(product.productId))
         return {
             error: true,
             code: 'PRODUCT_NOT_FOUND',
@@ -159,7 +174,7 @@ const updateProductInCart = (product) => {
 }
 
 const removeProductFromCart = (productId) => {
-    if (!cart.has(productId)) {
+    if (!isProductExist(productId)) {
         return {
             error: true,
             code: 'PRODUCT_NOT_FOUND',
